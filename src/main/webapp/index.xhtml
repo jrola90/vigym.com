@@ -7,16 +7,26 @@
 	<title>Vigym.com</title>
 </h:head>
 <h:body>
-	
+
 	<h:form>
-	<h:panelGrid columns="2" styleClass="formTable">
-		<h:inputText label="Username" value="#{loginBean.login}" />
-		<br />
-		<h:inputSecret label="Password" value="#{loginBean.password}" />
-		<br />
-		<h:commandButton value="GO" action="#{loginBean.doLogin}" />
+		<h:panelGrid columns="3" styleClass="formTable"
+			rendered="#{!userBean.auth}">
+			<h:inputText label="Username" value="#{userBean.login}" />
+			<h:inputSecret label="Password" value="#{userBean.password}" />
+			<h:commandButton value="GO" actionListener="#{userBean.doLogin}" />
+			<h:outputText value="#{userBean.errorMessage}"
+				style="font-weight: bold;" />
 		</h:panelGrid>
 	</h:form>
-	
+
+	<h:form>
+		<h:panelGrid columns="2" styleClass="formTable"
+			rendered="#{userBean.auth}">
+			Username: <h:outputText value="#{userBean.login}" />
+			Password: <h:outputText value="#{userBean.password}" />
+			<h:commandButton value="LOGOUT" actionListener="#{userBean.doLogout}" />
+		</h:panelGrid>
+	</h:form>
+
 </h:body>
 </html>

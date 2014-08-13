@@ -1,8 +1,8 @@
 package pl.jrola.java.www.vigym.model.dao;
 
-public abstract class DAOFactory implements DAOFactoryInterface {
+public abstract class DAOFactory {
 
-	public UsersDAO createUsersDAO() {
+	public static UsersDAO createUsersDAO() {
 		return new UserDAOImpl(); 
 	}
 	
