@@ -3,14 +3,14 @@ package pl.jrola.java.www.vigym.viewcontroller.beans;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
-@ManagedBean (name="loginBean")
+@ManagedBean(name = "loginBean")
 @RequestScoped
 public class LoginBean {
 	private String login;
 	private String password;
-	
+
 	public LoginBean() {
-		super();
+
 	}
 
 	public String getLogin() {
@@ -28,9 +28,9 @@ public class LoginBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public String doLogin () {
+
+	public String doLogin() {
 		return "index2";
 	}
-	
+
 }
