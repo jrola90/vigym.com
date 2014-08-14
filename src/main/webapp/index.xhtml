@@ -7,13 +7,12 @@
 	<title>Vigym.com</title>
 </h:head>
 <h:body>
-
 	<h:form>
 		<h:panelGrid columns="3" styleClass="formTable"
 			rendered="#{!userBean.auth}">
-			<h:inputText label="Username" value="#{userBean.login}" />
-			<h:inputSecret label="Password" value="#{userBean.password}" />
-			<h:commandButton value="GO" actionListener="#{userBean.doLogin}" />
+			<h:inputText value="#{userBean.login}" />
+			<h:inputSecret value="#{userBean.password}" />
+			<h:commandButton value="#{msg['login']}" actionListener="#{userBean.doLogin}" />
 			<h:outputText value="#{userBean.errorMessage}"
 				style="font-weight: bold;" />
 		</h:panelGrid>
@@ -22,9 +21,8 @@
 	<h:form>
 		<h:panelGrid columns="2" styleClass="formTable"
 			rendered="#{userBean.auth}">
-			Username: <h:outputText value="#{userBean.login}" />
-			Password: <h:outputText value="#{userBean.password}" />
-			<h:commandButton value="LOGOUT" actionListener="#{userBean.doLogout}" />
+			#{msg['username']}: <h:outputText value="#{userBean.login}" />
+			<h:commandButton value="#{msg['logout']}" actionListener="#{userBean.doLogout}" />
 		</h:panelGrid>
 	</h:form>
 

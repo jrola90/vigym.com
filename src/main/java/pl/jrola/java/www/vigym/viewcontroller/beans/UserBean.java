@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import pl.jrola.java.www.vigym.model.dao.DAOFactory;
@@ -14,19 +15,21 @@ import pl.jrola.java.www.vigym.model.entities.dao.exceptions.GetUserException;
 @ManagedBean(name = "userBean")
 @SessionScoped
 public class UserBean implements Serializable {
-	
+
 	private static final long serialVersionUID = 1133776969885921779L;
 
 	private UsersDAO userDAO = DAOFactory.createUsersDAO();
 	private UserEntity userEntity;
-	
+
 	private String login;
 	private String password;
+	private String email;
+
 	private String errorMessage;
 	private boolean isAuth = false;
-	
+
 	public UserBean() {
-		
+
 	}
 
 	public String getLogin() {
@@ -57,28 +60,39 @@ public class UserBean implements Serializable {
 		this.isAuth = isAuth;
 	}
 
+	public String getEmail() {
+		if (userEntity != null)
+			email = userEntity.getEmail();
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public void doLogin(ActionEvent event) {
-	
+
 		try {
 			userEntity = userDAO.getUser(login, password);
-			
+
 			if (userEntity != null) {
 				isAuth = true;
 				errorMessage = null;
 			} else {
 				errorMessage = "Incorrect login or password";
 			}
-			
+
 		} catch (GetUserException e) {
 			errorMessage = e.getMessage();
 		}
-		
+
 	}
-	
+
 	public void doLogout(ActionEvent event) {
-		isAuth = false;
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.remove("userBean");
 	}
-	
+
 	public String doRedirectAfterSuccessfullLogin() {
 		return "index";
 	}
