@@ -17,6 +17,7 @@
 		<property name="current_session_context_class">thread</property>
 		
 		<mapping class="pl.jrola.java.www.vigym.model.entities.UserEntity"/>
+		<mapping class="pl.jrola.java.www.vigym.model.entities.ExerciseEntity"/>
 		
 	</session-factory>
 	

@@ -1,4 +1,4 @@
-package pl.jrola.java.www.vigym.model.entities.dao.exceptions;
+package pl.jrola.java.www.vigym.model.dao.exceptions;
 
 public class GetUserException extends Exception {
 

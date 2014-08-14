@@ -9,8 +9,8 @@ import javax.faces.event.ActionEvent;
 
 import pl.jrola.java.www.vigym.model.dao.DAOFactory;
 import pl.jrola.java.www.vigym.model.dao.UsersDAO;
+import pl.jrola.java.www.vigym.model.dao.exceptions.GetUserException;
 import pl.jrola.java.www.vigym.model.entities.UserEntity;
-import pl.jrola.java.www.vigym.model.entities.dao.exceptions.GetUserException;
 
 @ManagedBean(name = "userBean")
 @SessionScoped

@@ -8,10 +8,10 @@ import org.hibernate.SessionFactory;
 
 import pl.jrola.java.www.vigym.model.HibernateUtils;
 import pl.jrola.java.www.vigym.model.Utils;
+import pl.jrola.java.www.vigym.model.dao.exceptions.GetUserException;
 import pl.jrola.java.www.vigym.model.entities.UserEntity;
-import pl.jrola.java.www.vigym.model.entities.dao.exceptions.GetUserException;
 
-public class UserDAOImpl implements UsersDAO {
+public class UsersDAOImpl implements UsersDAO {
 
 	@Override
 	public UserEntity getUser(String nickname, String password)
