@@ -5,31 +5,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-	<title>Vigym.com</title>
+	<title>#{applicationInfoBean.title}</title>
 </h:head>
 <h:body>
 
-	<h:form>
-		<h:panelGrid columns="3" styleClass="formTable"
-			rendered="#{!userBean.auth}">
-			<h:inputText value="#{userBean.login}" />
-			<h:inputSecret value="#{userBean.password}" />
-			<h:commandButton value="#{msg['login']}"
-				actionListener="#{userBean.doLogin}" />
-			<h:outputText value="#{userBean.errorMessage}"
-				style="font-weight: bold;" />
-		</h:panelGrid>
-	</h:form>
 
-	<h:form>
-		<h:panelGrid columns="3" styleClass="formTable"
-			rendered="#{userBean.auth}">
-			<h:outputText value="#{msg['username']}:" />
-			<h:outputText value="#{userBean.login} (#{userBean.email})" />
-			<h:commandButton value="#{msg['logout']}"
-				actionListener="#{userBean.doLogout}" />
-		</h:panelGrid>
-	</h:form>
+	<ui:include src="login.xhtml" />
+
 
 	<hr />
 	<h:dataTable value="#{trainingsBean.trainings}" var="item"

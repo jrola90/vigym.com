@@ -5,10 +5,11 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-	<title>Vigym.com</title>
+	<title>#{applicationInfoBean.title}</title>
 </h:head>
 <h:body>
 
+	<ui:include src="login.xhtml" />
 
 	<hr />
 	<h:dataTable value="#{userProfileInfoBean.userEntity.profileInfoSet}"

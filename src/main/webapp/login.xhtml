@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:form>
+		<h:panelGrid columns="3" styleClass="formTable"
+			rendered="#{!userBean.auth}">
+			<h:inputText value="#{userBean.login}" />
+			<h:inputSecret value="#{userBean.password}" />
+			<h:commandButton value="#{msg['login']}"
+				actionListener="#{userBean.doLogin}" />
+			<h:outputText value="#{userBean.errorMessage}"
+				style="font-weight: bold;" />
+		</h:panelGrid>
+	</h:form>
+
+	<h:form>
+		<h:panelGrid columns="3" styleClass="formTable"
+			rendered="#{userBean.auth}">
+			<h:outputText value="#{msg['username']}:" />
+			<h:outputText value="#{userBean.login} (#{userBean.email})" />
+			<h:commandButton value="#{msg['logout']}"
+				actionListener="#{userBean.doLogout}" />
+		</h:panelGrid>
+	</h:form>
+
+</ui:composition>
