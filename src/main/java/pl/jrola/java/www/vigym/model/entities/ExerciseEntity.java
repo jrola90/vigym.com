@@ -72,9 +72,4 @@ public class ExerciseEntity implements Serializable {
 		this.trainings = trainings;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "ExerciseEntity [id=" + id + ", name=" + name + ", desc=" + desc
-//				+ ", trainings=" + trainings + "]";
-//	}
 }

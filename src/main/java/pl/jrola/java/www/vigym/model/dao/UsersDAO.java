@@ -5,4 +5,6 @@ import pl.jrola.java.www.vigym.model.entities.UserEntity;
 
 public interface UsersDAO {
 	UserEntity getUser(String nickname, String password) throws GetUserException;
+	UserEntity getUser(Long id) throws GetUserException;
+	UserEntity getUser(String id) throws GetUserException;
 }

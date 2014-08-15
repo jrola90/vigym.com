@@ -41,6 +41,9 @@ public class UserEntity implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<TrainingEntity> trainings = new HashSet<TrainingEntity>();
 	
+	@OneToMany(fetch=FetchType.EAGER, mappedBy = "user")
+	private Set<ProfileInfoEntity> profileInfoSet = new HashSet<ProfileInfoEntity>();
+	
 	public UserEntity() {
 		super();
 	}
@@ -93,11 +96,11 @@ public class UserEntity implements Serializable {
 		this.trainings = trainings;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "UserEntity [id=" + id + ", nickname=" + nickname
-//				+ ", password=" + password + ", email=" + email + ", mobileId="
-//				+ mobileId + ", trainings=" + trainings + "]";
-//	}
-	
+	public Set<ProfileInfoEntity> getProfileInfoSet() {
+		return profileInfoSet;
+	}
+
+	public void setProfileInfoSet(Set<ProfileInfoEntity> profileInfoSet) {
+		this.profileInfoSet = profileInfoSet;
+	}
 }

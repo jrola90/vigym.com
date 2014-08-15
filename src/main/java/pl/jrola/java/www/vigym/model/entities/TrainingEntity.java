@@ -106,11 +106,4 @@ public class TrainingEntity implements Serializable {
 		this.mobileId = mobileId;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "TrainingEntity [id=" + id + ", date=" + date + ", value="
-//				+ value + ", count=" + count + ", exercise=" + exercise
-//				+ ", user=" + user + ", mobileId=" + mobileId + "]";
-//	}
-	
 }

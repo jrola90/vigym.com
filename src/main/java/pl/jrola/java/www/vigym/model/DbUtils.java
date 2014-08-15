@@ -29,4 +29,14 @@ public abstract class DbUtils {
 		public static final String MOBILE_ID = "training_mobile_id";
 	}
 	
+	public static class PROFILE_INFO_TABLE {
+		public static final String TABLE_NAME = "profile_information";
+		public static final String ID = "prof_info_id";
+		public static final String NAME = "prof_info_name";
+		public static final String DESC = "prof_info_desc";
+		public static final String USER = "prof_info_user_id";
+		public static final String MOBILE_ID = "prof_info_mobile_id";
+		
+	}
+	
 }
