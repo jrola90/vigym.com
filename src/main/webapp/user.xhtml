@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core">
 
 <h:head>
 	<title>#{applicationInfoBean.title}</title>
@@ -41,9 +42,40 @@
 			</h:dataTable>
 
 		</h:column>
-
-
 	</h:dataTable>
+
+	<hr />
+
+
+	<c:forEach items="#{userTrainingsBean.trainings}" var="entry">
+		<p>
+			<h:outputText value="#{entry.key.name}" />
+
+			<h:dataTable value="#{entry.value.trainings}" var="item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg['value']}" />
+					</f:facet>
+					<h:outputText value="#{item.value}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg['count']}" />
+					</f:facet>
+					<h:outputText value="#{item.count}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg['date']}" />
+					</f:facet>
+					<h:outputText value="#{item.date}" />
+				</h:column>
+
+			</h:dataTable>
+		</p>
+
+	</c:forEach>
+
 
 
 </h:body>

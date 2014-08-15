@@ -16,25 +16,24 @@ import javax.persistence.Table;
 import pl.jrola.java.www.vigym.model.DbUtils;
 
 @Entity
-@Table (name=DbUtils.EXERCISES_TABLE.TABLE_NAME)
+@Table(name = DbUtils.EXERCISES_TABLE.TABLE_NAME)
 public class ExerciseEntity implements Serializable {
 
 	private static final long serialVersionUID = -7540409414928591741L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name=DbUtils.EXERCISES_TABLE.ID)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = DbUtils.EXERCISES_TABLE.ID)
 	private Long id;
-	
-	@Column(name=DbUtils.EXERCISES_TABLE.NAME)
+
+	@Column(name = DbUtils.EXERCISES_TABLE.NAME)
 	private String name;
-	
-	@Column(name=DbUtils.EXERCISES_TABLE.DESC)
+
+	@Column(name = DbUtils.EXERCISES_TABLE.DESC)
 	private String desc;
-	
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "exercise")
 	private Set<TrainingEntity> trainings = new HashSet<TrainingEntity>();
-	
 
 	public ExerciseEntity() {
 		super();
@@ -63,13 +62,30 @@ public class ExerciseEntity implements Serializable {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	
+
 	public Set<TrainingEntity> getTrainings() {
 		return trainings;
 	}
-	
+
 	public void setTrainings(Set<TrainingEntity> trainings) {
 		this.trainings = trainings;
+	}
+
+	@Override
+	public int hashCode() {
+		return id.intValue();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (obj instanceof ExerciseEntity
+				&& ((ExerciseEntity) obj).id.equals(id)
+				&& ((ExerciseEntity) obj).name.equals(name)
+				&& ((ExerciseEntity) obj).desc.equals(desc))
+			return true;
+
+		return false;
 	}
 
 }

@@ -38,9 +38,43 @@ public class TrainingsDAOImpl implements TrainingsDAO {
 		} finally {
 			if (session != null && session.isOpen())
 				session.close();
-
 		}
 
+	}
+
+	@Override
+	public List<TrainingEntity> getTrainingsByUserId(Long id)
+			throws GetTrainingsException {
+
+		SessionFactory sessionFactory = null;
+		Session session = null;
+
+		try {
+
+			sessionFactory = HibernateUtils.getSessionFactory();
+			session = sessionFactory.openSession();
+			Query query = session
+					.createQuery("from TrainingEntity where user.id = :id order by exercise.id, date");
+			query.setLong("id", id);
+
+			List<TrainingEntity> list = query.list();
+
+			return list;
+
+		} catch (Exception e) {
+			Utils.logError(e);
+			throw new GetTrainingsException(e);
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
+	}
+
+	@Override
+	public List<TrainingEntity> getTrainingsByUserId(String id)
+			throws GetTrainingsException {
+		Long longId = Long.parseLong(id);
+		return getTrainingsByUserId(longId);
 	}
 
 }
