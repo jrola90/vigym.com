@@ -10,22 +10,37 @@
 <h:body>
 
 
-<hr />
-	<h:dataTable value="#{userProfileInfoBean.userEntity.profileInfoSet}" var="item"
-		style="border-width: 2px; border-color: red;">
+	<hr />
+	<h:dataTable value="#{userProfileInfoBean.userEntity.profileInfoSet}"
+		var="item">
 		<h:column>
 			<f:facet name="header">
-				<h:outputText value="#{msg['exercise']}" />
+				<h:outputText value="#{msg['name']}" />
 			</f:facet>
+
 			<h:outputText value="#{item.name}" />
 		</h:column>
 
 		<h:column>
 			<f:facet name="header">
-				<h:outputText value="#{msg['count']}" />
+				<h:outputText value="#{msg['desc']}" />
 			</f:facet>
 			<h:outputText value="#{item.desc}" />
 		</h:column>
+
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="#{msg['values']}" />
+			</f:facet>
+
+			<h:dataTable value="#{item.profileInfoValues}" var="item2">
+				<h:column>
+					<h:outputText value="#{item2.value} (#{item2.date})" />
+				</h:column>
+			</h:dataTable>
+
+		</h:column>
+
 
 	</h:dataTable>
 

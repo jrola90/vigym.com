@@ -36,7 +36,24 @@ public abstract class DbUtils {
 		public static final String DESC = "prof_info_desc";
 		public static final String USER = "prof_info_user_id";
 		public static final String MOBILE_ID = "prof_info_mobile_id";
-		
+	}
+	
+	public static class UNITS_TABLE {
+		public static final String TABLE_NAME = "units";
+		public static final String ID = "unit_id";
+		public static final String NAME = "unit_name";
+		public static final String DESC = "unit_desc";
+		public static final String SHORT_NAME = "unit_short_name";
+	}
+	
+	public static class PROFILE_INFO_VALUES_TABLE {
+		public static final String TABLE_NAME = "profile_information_values";	
+		public static final String ID = "prof_info_val_id";
+		public static final String VALUE = "prof_info_val_value";
+		public static final String DATE = "prof_info_val_date";
+		public static final String UNIT = "prof_info_val_unit_id";
+		public static final String PROF_INFO = "prof_info_val_info_id";
+		public static final String MOBILE_ID = "prof_info_val_mobile_id";
 	}
 	
 }

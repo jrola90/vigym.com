@@ -74,7 +74,6 @@ public class UserBean implements Serializable {
 
 		try {
 			userEntity = userDAO.getUser(login, password);
-			System.out.println(userEntity.getTrainings());
 			if (userEntity != null) {
 				isAuth = true;
 				errorMessage = null;

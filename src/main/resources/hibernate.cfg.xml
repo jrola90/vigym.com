@@ -21,6 +21,7 @@
 		<mapping class="pl.jrola.java.www.vigym.model.entities.TrainingEntity"/>
 		<mapping class="pl.jrola.java.www.vigym.model.entities.ProfileInfoEntity"/>
 		<mapping class="pl.jrola.java.www.vigym.model.entities.ProfileInfoValueEntity"/>
+		<mapping class="pl.jrola.java.www.vigym.model.entities.UnitEntity"/>
 		
 	</session-factory>
 	
