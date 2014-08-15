@@ -93,11 +93,11 @@ public class UserEntity implements Serializable {
 		this.trainings = trainings;
 	}
 
-	@Override
-	public String toString() {
-		return "UserEntity [id=" + id + ", nickname=" + nickname
-				+ ", password=" + password + ", email=" + email + ", mobileId="
-				+ mobileId + ", trainings=" + trainings + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "UserEntity [id=" + id + ", nickname=" + nickname
+//				+ ", password=" + password + ", email=" + email + ", mobileId="
+//				+ mobileId + ", trainings=" + trainings + "]";
+//	}
 	
 }
