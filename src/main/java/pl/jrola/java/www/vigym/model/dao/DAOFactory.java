@@ -10,4 +10,8 @@ public abstract class DAOFactory {
 		return new ExercisesDAOImpl();
 	}
 	
+	public static TrainingsDAO createTrainingsDAO() {
+		return new TrainingsDAOImpl();
+	}
+	
 }

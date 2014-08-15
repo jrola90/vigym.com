@@ -1,12 +1,16 @@
 package pl.jrola.java.www.vigym.model.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import pl.jrola.java.www.vigym.model.DbUtils;
@@ -34,6 +38,9 @@ public class UserEntity implements Serializable {
 	@Column(name=DbUtils.USERS_TABLE.MOBILE_ID)
 	private Long mobileId;
 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<TrainingEntity> trainings = new HashSet<TrainingEntity>();
+	
 	public UserEntity() {
 		super();
 	}
@@ -77,4 +84,20 @@ public class UserEntity implements Serializable {
 	public void setMobileId(Long mobileId) {
 		this.mobileId = mobileId;
 	}
+
+	public Set<TrainingEntity> getTrainings() {
+		return trainings;
+	}
+
+	public void setTrainings(Set<TrainingEntity> trainings) {
+		this.trainings = trainings;
+	}
+
+	@Override
+	public String toString() {
+		return "UserEntity [id=" + id + ", nickname=" + nickname
+				+ ", password=" + password + ", email=" + email + ", mobileId="
+				+ mobileId + ", trainings=" + trainings + "]";
+	}
+	
 }

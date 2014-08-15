@@ -1,12 +1,16 @@
 package pl.jrola.java.www.vigym.model.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import pl.jrola.java.www.vigym.model.DbUtils;
@@ -28,6 +32,10 @@ public class ExerciseEntity implements Serializable {
 	@Column(name=DbUtils.EXERCISES_TABLE.DESC)
 	private String desc;
 	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "exercise")
+	private Set<TrainingEntity> trainings = new HashSet<TrainingEntity>();
+	
+
 	public ExerciseEntity() {
 		super();
 	}
@@ -56,4 +64,11 @@ public class ExerciseEntity implements Serializable {
 		this.desc = desc;
 	}
 	
+	public Set<TrainingEntity> getTrainings() {
+		return trainings;
+	}
+	
+	public void setTrainings(Set<TrainingEntity> trainings) {
+		this.trainings = trainings;
+	}
 }

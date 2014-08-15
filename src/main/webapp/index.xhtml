@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
 	<title>Vigym.com</title>
@@ -29,9 +30,48 @@
 				actionListener="#{userBean.doLogout}" />
 		</h:panelGrid>
 	</h:form>
-	
+
 	<hr />
-	
+
+	<h:dataTable value="#{trainingsBean.trainings}" var="item"
+		style="border-width: 2px; border-color: red;">
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="#{msg['exercise']}" />
+			</f:facet>
+			<h:outputText value="#{item.exercise.name}" />
+		</h:column>
+
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="#{msg['count']}" />
+			</f:facet>
+			<h:outputText value="#{item.count}" />
+		</h:column>
+
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="#{msg['value']}" />
+			</f:facet>
+			<h:outputText value="#{item.value}" />
+		</h:column>
+
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="#{msg['date']}" />
+			</f:facet>
+			<h:outputText value="#{item.date}" />
+		</h:column>
+
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="#{msg['username']}" />
+			</f:facet>
+			<h:outputText value="#{item.user.nickname}" />
+		</h:column>
+
+	</h:dataTable>
+
 
 
 </h:body>

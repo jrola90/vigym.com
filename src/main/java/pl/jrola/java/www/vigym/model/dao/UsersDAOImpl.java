@@ -38,7 +38,7 @@ public class UsersDAOImpl implements UsersDAO {
 			Utils.logError(e);
 			throw new GetUserException(e);
 		} finally {
-			if (session.isOpen())
+			if (session != null && session.isOpen())
 				session.close();
 		}
 		
