@@ -58,6 +58,7 @@
 
 	<c:forEach items="#{userTrainingsBean.trainings}" var="entry">
 		<p>
+		
 			<h:outputText value="#{entry.key.name}" />
 
 			<h:dataTable value="#{entry.value.trainings}" var="item">
@@ -81,6 +82,12 @@
 				</h:column>
 
 			</h:dataTable>
+			
+			<h:outputText value="#{entry.value.lastTraining} | " />
+			<h:outputText value="#{entry.value.maxSingle} | " /> 
+			<h:outputText value="#{entry.value.maxTotal} | " />  
+			<h:outputText value="#{entry.value.avgSingle} | " /> 
+			<h:outputText value="#{entry.value.avgTotal} | " />			
 		</p>
 
 	</c:forEach>
