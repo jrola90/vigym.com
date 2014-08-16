@@ -70,12 +70,33 @@ public class UsersDAOImpl implements UsersDAO {
 			if (session != null && session.isOpen())
 				session.close();
 		}
-
 	}
 
 	@Override
 	public UserEntity getUser(String id) throws GetUserException {
 		Long longId = Long.parseLong(id);
 		return this.getUser(longId);
+	}
+
+	@Override
+	public List<UserEntity> getUsers() throws GetUserException {
+		SessionFactory sessionFactory = null;
+		Session session = null;
+		try {
+			sessionFactory = HibernateUtils.getSessionFactory();
+			session = sessionFactory.openSession();
+			Query query = session
+					.createQuery("from UserEntity order by id");
+			List<UserEntity> list = query.list();
+
+			return list;
+			
+		} catch (Exception e) {
+			Utils.logError(e);
+			throw new GetUserException(e);
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
 	}
 }

@@ -147,7 +147,9 @@ public class UserEntity implements Serializable {
 	}
 
 	public TrainingEntity getLastTraining() {
-		return Collections.max(trainings);
+		if (trainings.size() > 0)
+			return Collections.max(trainings);
+		return null;
 	}
 
 }
