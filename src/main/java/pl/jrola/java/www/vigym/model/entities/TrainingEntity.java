@@ -16,38 +16,50 @@ import javax.persistence.Table;
 import pl.jrola.java.www.vigym.model.DbUtils;
 
 @Entity
-@Table(name=DbUtils.TRAININGS_TABLE.TABLE_NAME)
-public class TrainingEntity implements Serializable {
+@Table(name = DbUtils.TRAININGS_TABLE.TABLE_NAME)
+public class TrainingEntity implements Serializable, Comparable<TrainingEntity> {
 
 	private static final long serialVersionUID = 9221724729175009214L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name=DbUtils.TRAININGS_TABLE.ID)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = DbUtils.TRAININGS_TABLE.ID)
 	private Long id;
-	
-	@Column(name=DbUtils.TRAININGS_TABLE.DATE)
+
+	@Column(name = DbUtils.TRAININGS_TABLE.DATE)
 	private Date date;
-	
-	@Column(name=DbUtils.TRAININGS_TABLE.VALUE)
+
+	@Column(name = DbUtils.TRAININGS_TABLE.VALUE)
 	private Double value;
-	
-	@Column(name=DbUtils.TRAININGS_TABLE.COUNT)
+
+	@Column(name = DbUtils.TRAININGS_TABLE.COUNT)
 	private Integer count;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name=DbUtils.TRAININGS_TABLE.EXERCISE)
+	@JoinColumn(name = DbUtils.TRAININGS_TABLE.EXERCISE)
 	private ExerciseEntity exercise;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = DbUtils.TRAININGS_TABLE.USER)
 	private UserEntity user;
-	
-	@Column(name=DbUtils.TRAININGS_TABLE.MOBILE_ID)
+
+	@Column(name = DbUtils.TRAININGS_TABLE.MOBILE_ID)
 	private Long mobileId;
-	
+
 	public TrainingEntity() {
 
+	}
+
+	public TrainingEntity(Long id, Date date, Double value, Integer count,
+			ExerciseEntity exercise, UserEntity user, Long mobileId) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.value = value;
+		this.count = count;
+		this.exercise = exercise;
+		this.user = user;
+		this.mobileId = mobileId;
 	}
 
 	public Long getId() {
@@ -104,6 +116,41 @@ public class TrainingEntity implements Serializable {
 
 	public void setMobileId(Long mobileId) {
 		this.mobileId = mobileId;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (obj instanceof TrainingEntity
+				&& ((TrainingEntity) obj).id.equals(id)
+				&& ((TrainingEntity) obj).count.equals(count)
+				&& ((TrainingEntity) obj).value.equals(value)
+				&& ((TrainingEntity) obj).date.equals(date)
+				&& ((TrainingEntity) obj).exercise.equals(exercise)
+				&& ((TrainingEntity) obj).mobileId.equals(mobileId)
+				&& ((TrainingEntity) obj).user.equals(user))
+			return true;
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return id.intValue();
+	}
+
+	@Override
+	public int compareTo(TrainingEntity o) {
+
+		if (o == null)
+			return 1;
+		else {
+			int cmp = date.compareTo(o.date);
+			if (cmp == 0)
+				cmp = id.compareTo(o.id);
+			return cmp;
+		}
+
 	}
 
 }

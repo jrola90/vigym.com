@@ -39,6 +39,22 @@ public class ExerciseEntity implements Serializable {
 		super();
 	}
 
+	public ExerciseEntity(Long id, String name, String desc) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.desc = desc;
+	}
+
+	public ExerciseEntity(Long id, String name, String desc,
+			Set<TrainingEntity> trainings) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.desc = desc;
+		this.trainings = trainings;
+	}
+
 	public Long getId() {
 		return id;
 	}
