@@ -1,6 +1,8 @@
 package pl.jrola.java.www.vigym.model.entities;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,34 +20,44 @@ import javax.persistence.Table;
 import pl.jrola.java.www.vigym.model.DbUtils;
 
 @Entity
-@Table(name=DbUtils.PROFILE_INFO_TABLE.TABLE_NAME)
+@Table(name = DbUtils.PROFILE_INFO_TABLE.TABLE_NAME)
 public class ProfileInfoEntity implements Serializable {
 
 	private static final long serialVersionUID = -5786134876596833297L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name=DbUtils.PROFILE_INFO_TABLE.ID)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = DbUtils.PROFILE_INFO_TABLE.ID)
 	private Long id;
-	
-	@Column(name=DbUtils.PROFILE_INFO_TABLE.NAME)
+
+	@Column(name = DbUtils.PROFILE_INFO_TABLE.NAME)
 	private String name;
-	
-	@Column(name=DbUtils.PROFILE_INFO_TABLE.DESC)
+
+	@Column(name = DbUtils.PROFILE_INFO_TABLE.DESC)
 	private String desc;
-	
-	@ManyToOne (fetch=FetchType.EAGER)
-	@JoinColumn(name=DbUtils.PROFILE_INFO_TABLE.USER)
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = DbUtils.PROFILE_INFO_TABLE.USER)
 	private UserEntity user;
-	
-	@Column(name=DbUtils.PROFILE_INFO_TABLE.MOBILE_ID)
+
+	@Column(name = DbUtils.PROFILE_INFO_TABLE.MOBILE_ID)
 	private Long mobileId;
-	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="profileInfo")
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "profileInfo")
 	private Set<ProfileInfoValueEntity> profileInfoValues = new HashSet<ProfileInfoValueEntity>();
-	
+
 	public ProfileInfoEntity() {
 
+	}
+
+	public ProfileInfoEntity(Long id, String name, String desc,
+			UserEntity user, Long mobileId) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.desc = desc;
+		this.user = user;
+		this.mobileId = mobileId;
 	}
 
 	public Long getId() {
@@ -92,8 +104,48 @@ public class ProfileInfoEntity implements Serializable {
 		return profileInfoValues;
 	}
 
-	public void setProfileInfoValues(Set<ProfileInfoValueEntity> profileInfoValues) {
+	public void setProfileInfoValues(
+			Set<ProfileInfoValueEntity> profileInfoValues) {
 		this.profileInfoValues = profileInfoValues;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return id.intValue();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ProfileInfoEntity
+				&& ((ProfileInfoEntity) obj).id.equals(id)
+				&& ((ProfileInfoEntity) obj).name.equals(name)
+				&& ((ProfileInfoEntity) obj).desc.equals(desc)
+				&& ((ProfileInfoEntity) obj).user.equals(user)
+				&& ((ProfileInfoEntity) obj).mobileId.equals(mobileId))
+			return true;
+		return false;
+	}
+
+	public Date getLastDate() {
+		if (profileInfoValues.size() > 0) {
+			return Collections.max(profileInfoValues).getDate();
+		}
+		return null;
+	}
+
+	public Double getCurrentValue() {
+		if (profileInfoValues.size() > 0) {
+			return Collections.max(profileInfoValues).getValue();
+		}
+		return null;
+	}
+
+	public Double getProgress() {
+		if (profileInfoValues.size() > 0) {
+			double max = Collections.max(profileInfoValues).getValue();
+			double min = Collections.min(profileInfoValues).getValue();
+			return max - min;
+		}
+		return null;
+	}
 }

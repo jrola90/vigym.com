@@ -42,6 +42,15 @@
 			</h:dataTable>
 
 		</h:column>
+
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="#{msg['progress']}" />
+			</f:facet>
+			<h:outputText value="#{item.currentValue} #{item.progress} (#{item.lastDate})" />
+		</h:column>
+
+
 	</h:dataTable>
 
 	<hr />
