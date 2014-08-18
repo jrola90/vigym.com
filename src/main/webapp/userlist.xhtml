@@ -3,7 +3,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jstl/core">
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<title>#{applicationInfoBean.title}</title>
@@ -12,28 +13,68 @@
 
 	<ui:include src="login.xhtml" />
 
-	<h:dataTable value="#{userListBean.userList}" var="item">
+	<h:form id="form">
+		<p:dataGrid var="user" value="#{userListBean.userList}" columns="3"
+			rows="9" paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="6,12,16">
 
-		<h:column>
 			<f:facet name="header">
-				<h:outputText value="#{msg['username']}" />
-			</f:facet>
-			<h:outputText value="#{item.nickname}" />
-		</h:column>
+            #{msg['userlist']}
+        </f:facet>
 
-		<h:column>
-			<f:facet name="header">
-				<h:outputText value="#{msg['last_training']}" />
-			</f:facet>
-			
-			<h:outputText value="#{item.lastTraining.exercise.name}" /><br />
-			<h:outputText value="#{item.lastTraining.date}" /><br />
-			<h:outputText value="#{item.lastTraining.count}" /><br />
-			<h:outputText value="#{item.lastTraining.value}" />
-			
-		</h:column>
+			<p:panel header="#{user.nickname}" style="text-align:center">
+				<h:panelGrid columns="1" style="width:100%">
+					<p:graphicImage value="/resources/img/user_1.png"
+						style="width: 50px; height: 50px;" />
+					<p:commandLink update=":form:trainingDetail"
+						oncomplete="PF('trainingDialog').show()"
+						title="#{msg['last_training']}"
+						rendered="#{not empty user.lastTraining}">
+						<h:outputText styleClass="ui-icon ui-icon-search"
+							style="margin:0 auto;" />
+						<f:setPropertyActionListener value="#{user}"
+							target="#{userListBean.selectedUser}" />
+					</p:commandLink>
+				</h:panelGrid>
+			</p:panel>
 
-	</h:dataTable>
+		</p:dataGrid>
+
+		<p:dialog header="#{msg['last_training']}" widgetVar="trainingDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="trainingDetail" style="text-align:center;">
+				<p:panelGrid columns="2"
+					rendered="#{not empty userListBean.selectedUser}"
+					columnClasses="label,value">
+					<f:facet name="header">
+						<p:graphicImage value="/resources/img/user_1.png"
+							style="width: 50px; height: 50px;" />
+					</f:facet>
+
+					<h:outputText value="#{msg['exercise']}" class="font-weight: bold;" />
+					<h:outputText
+						value="#{userListBean.selectedUser.lastTraining.exercise.name}" />
+
+					<h:outputText value="#{msg['date']}" class="font-weight: bold;" />
+					<h:outputText
+						value="#{userListBean.selectedUser.lastTraining.date}">
+						<f:convertDateTime type="date"
+							pattern="#{applicationInfoBean.dateFormat}" />
+					</h:outputText>
+
+					<h:outputText value="#{msg['count']}" class="font-weight: bold;" />
+					<h:outputText
+						value="#{userListBean.selectedUser.lastTraining.count}" />
+
+					<h:outputText value="#{msg['value']}" class="font-weight: bold;" />
+					<h:outputText
+						value="#{userListBean.selectedUser.lastTraining.value}" />
+
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
 
 </h:body>
 </html>

@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.view.ViewScoped;
 
 import pl.jrola.java.www.vigym.model.dao.DAOFactory;
 import pl.jrola.java.www.vigym.model.dao.TrainingsDAO;
@@ -14,12 +14,12 @@ import pl.jrola.java.www.vigym.model.dao.exceptions.GetTrainingsException;
 import pl.jrola.java.www.vigym.model.entities.TrainingEntity;
 
 @ManagedBean(name = "trainingsBean")
-@RequestScoped
+@ViewScoped
 public class TrainingsBean implements Serializable {
 
 	private static final long serialVersionUID = 6198339254053071175L;
 
-	private TrainingsDAO trainingsDAO = DAOFactory.createTrainingsDAO();
+	private TrainingsDAO trainingsDAO;
 
 	private List<TrainingEntity> trainings;
 
@@ -32,6 +32,7 @@ public class TrainingsBean implements Serializable {
 	@PostConstruct
 	public void postConstruct() {
 		try {
+			trainingsDAO = DAOFactory.createTrainingsDAO();
 			trainings = trainingsDAO.getTrainingsOrderedByDateDesc();
 		} catch (GetTrainingsException e) {
 			trainings = new ArrayList<TrainingEntity>();

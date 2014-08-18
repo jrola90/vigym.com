@@ -11,6 +11,7 @@ import pl.jrola.java.www.vigym.model.dao.DAOFactory;
 import pl.jrola.java.www.vigym.model.dao.UsersDAO;
 import pl.jrola.java.www.vigym.model.dao.exceptions.GetUserException;
 import pl.jrola.java.www.vigym.model.entities.UserEntity;
+import pl.jrola.java.www.vigym.viewcontroller.JSFUtils;
 
 @ManagedBean(name = "userBean")
 @SessionScoped
@@ -78,7 +79,7 @@ public class UserBean implements Serializable {
 				isAuth = true;
 				errorMessage = null;
 			} else {
-				errorMessage = "Incorrect login or password";
+				errorMessage = JSFUtils.getMessage("incorrect_login_or_password");
 			}
 
 		} catch (GetUserException e) {
