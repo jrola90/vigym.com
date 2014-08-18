@@ -27,6 +27,13 @@
 				<h:panelGrid columns="1" style="width:100%">
 					<p:graphicImage value="/resources/img/user_1.png"
 						style="width: 50px; height: 50px;" />
+
+					<h:outputLink value="user.jsf?id=#{user.id}"
+						title="#{msg['visit_profile']}">
+						<h:outputText styleClass="ui-icon ui-icon-person"
+							style="margin:0 auto;" />
+					</h:outputLink>
+
 					<p:commandLink update=":form:trainingDetail"
 						oncomplete="PF('trainingDialog').show()"
 						title="#{msg['last_training']}"
