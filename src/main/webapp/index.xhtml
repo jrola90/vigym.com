@@ -2,57 +2,57 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<title>#{applicationInfoBean.title}</title>
 </h:head>
 <h:body>
 
-
 	<ui:include src="login.xhtml" />
 
-
-	<hr />
-	<h:dataTable value="#{trainingsBean.trainings}" var="item"
-		style="border-width: 2px; border-color: red;">
-		<h:column>
+	<h:form>
+		<p:dataScroller value="#{trainingsBean.trainings}" var="item"
+			chunkSize="5">
 			<f:facet name="header">
-				<h:outputText value="#{msg['exercise']}" />
-			</f:facet>
-			<h:outputText value="#{item.exercise.name}" />
-		</h:column>
+            #{msg['scroll_down_to_load_more_trainings']}
+        </f:facet>
 
-		<h:column>
-			<f:facet name="header">
-				<h:outputText value="#{msg['count']}" />
-			</f:facet>
-			<h:outputText value="#{item.count}" />
-		</h:column>
+			<h:panelGrid columns="3" style="width:100%"
+				columnClasses="logo,detail,detail">
+				<p:graphicImage
+					value="/resources/img/training_#{(item.id%4)}.png"
+					style="width: 75px; height: 75px;" />
 
-		<h:column>
-			<f:facet name="header">
-				<h:outputText value="#{msg['value']}" />
-			</f:facet>
-			<h:outputText value="#{item.value}" />
-		</h:column>
 
-		<h:column>
-			<f:facet name="header">
-				<h:outputText value="#{msg['date']}" />
-			</f:facet>
-			<h:outputText value="#{item.date}" />
-		</h:column>
+				<p:outputPanel>
+					<h:panelGrid columns="2" cellpadding="5">
 
-		<h:column>
-			<f:facet name="header">
-				<h:outputText value="#{msg['username']}" />
-			</f:facet>
-			<h:outputText value="#{item.user.nickname}" />
-		</h:column>
+						<h:outputText value="#{msg['exercise']}:" />
+						<h:outputText value="#{item.exercise.name}" style="font-weight: bold" />
 
-	</h:dataTable>
+						<h:outputText value="#{msg['count']}:" />
+						<h:outputText value="#{item.count}" style="font-weight: bold" />
 
+						<h:outputText value="#{msg['value']}:" />
+						<h:outputText value="#{item.value}" style="font-weight: bold" />
+						
+						<h:outputText value="#{msg['date']}:" />
+						<h:outputText value="#{item.date}" style="font-weight: bold" >
+							<f:convertDateTime type="date" pattern="#{applicationInfoBean.dateFormat}"/>
+						</h:outputText>						
+					</h:panelGrid>
+				</p:outputPanel>
+
+				<p:outputPanel>
+					<a href="user.jsf?id=#{item.user.id}">#{item.user.nickname}</a>
+				</p:outputPanel>
+
+
+			</h:panelGrid>
+		</p:dataScroller>
+	</h:form>
 
 </h:body>
 </html>

@@ -87,12 +87,12 @@ public class UserBean implements Serializable {
 
 	}
 
+	public Long getId(){
+		return userEntity.getId();
+	}
+	
 	public void doLogout(ActionEvent event) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.remove("userBean");
-	}
-
-	public String doRedirectAfterSuccessfullLogin() {
-		return "index";
 	}
 }

@@ -150,7 +150,6 @@ public class TrainingEntity implements Serializable, Comparable<TrainingEntity> 
 				cmp = id.compareTo(o.id);
 			return cmp;
 		}
-
 	}
 
 }

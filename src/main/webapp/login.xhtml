@@ -1,27 +1,48 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
-	<h:form>
-		<h:panelGrid columns="3" styleClass="formTable"
-			rendered="#{!userBean.auth}">
-			<h:inputText value="#{userBean.login}" />
-			<h:inputSecret value="#{userBean.password}" />
-			<h:commandButton value="#{msg['login']}"
-				actionListener="#{userBean.doLogin}" />
-			<h:outputText value="#{userBean.errorMessage}"
-				style="font-weight: bold;" />
-		</h:panelGrid>
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form rendered="#{!userBean.auth}">
+		<p:toolbar>
+			<f:facet name="left">
+				<ui:include src="menu.xhtml" />
+			</f:facet>
+			<f:facet name="right">
+				<p:inputText value="#{userBean.login}" style="margin-right: 5px;" />
+				<p:inputText type="password" value="#{userBean.password}"
+					style="margin-right: 5px;" />
+				<p:commandButton value="#{msg['login']}"
+					actionListener="#{userBean.doLogin}" ajax="false"
+					style="margin-right: 5px;" />
+			</f:facet>
+		</p:toolbar>
 	</h:form>
 
-	<h:form>
-		<h:panelGrid columns="3" styleClass="formTable"
-			rendered="#{userBean.auth}">
-			<h:outputText value="#{msg['username']}:" />
-			<h:outputText value="#{userBean.login} (#{userBean.email})" />
-			<h:commandButton value="#{msg['logout']}"
-				actionListener="#{userBean.doLogout}" />
-		</h:panelGrid>
+	<h:form rendered="#{userBean.auth}">
+		<p:toolbar>
+			<f:facet name="left">
+				<ui:include src="menu.xhtml" />
+			</f:facet>
+			<f:facet name="right">
+				<h:outputText value="#{msg['logged_as']}:"
+					style="margin-right: 5px;" />
+
+				<a href="user.jsf?id=#{userBean.id}"><h:outputText
+						value="#{userBean.login}" style="margin-right: 5px;" /></a>
+
+				<h:outputText value="#{userBean.email}"
+					style="font-weight: bold; margin-right: 5px;" />
+
+				<p:commandButton value="#{msg['logout']}"
+					actionListener="#{userBean.doLogout}" ajax="false"
+					style="margin-right: 5px;" />
+			</f:facet>
+		</p:toolbar>
 	</h:form>
+
+	<h:outputText rendered="#{!userBean.auth}"
+		value="#{userBean.errorMessage}" style="font-weight: bold;" />
 
 </ui:composition>

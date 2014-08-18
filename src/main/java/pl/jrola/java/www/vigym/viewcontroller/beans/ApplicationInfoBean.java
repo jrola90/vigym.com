@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 public class ApplicationInfoBean {
 	
 	private String title = "vigym.com";
+	private String dateFormat = "yyyy-MM-dd";
 	
 	public ApplicationInfoBean() {
 	}
@@ -18,6 +19,14 @@ public class ApplicationInfoBean {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getDateFormat() {
+		return dateFormat;
+	}
+
+	public void setDateFormat(String dateFormat) {
+		this.dateFormat = dateFormat;
 	}
 	
 }
