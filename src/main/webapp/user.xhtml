@@ -3,94 +3,93 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jstl/core">
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>#{applicationInfoBean.title}</title>
+	<!-- <title>#{applicationInfoBean.title}</title> -->
 </h:head>
 <h:body>
 
 	<ui:include src="login.xhtml" />
 
-	<h:dataTable value="#{userProfileInfoBean.userEntity.profileInfoSet}"
-		var="item">
-		<h:column>
-			<f:facet name="header">
-				<h:outputText value="#{msg['name']}" />
-			</f:facet>
+	<p:dialog widgetVar="trainingDialog2" modal="true" resizable="false"
+		header="#{msg['history_chart']}">
+		<h:form id="dialog">
+			<h:outputText value="#{historyChartBean.msg}" />
+		</h:form>
+	</p:dialog>
+	<br />
 
-			<h:outputText value="#{item.name}" />
-		</h:column>
-
-		<h:column>
-			<f:facet name="header">
-				<h:outputText value="#{msg['desc']}" />
-			</f:facet>
-			<h:outputText value="#{item.desc}" />
-		</h:column>
-
-		<h:column>
-			<f:facet name="header">
-				<h:outputText value="#{msg['values']}" />
-			</f:facet>
-
-			<h:dataTable value="#{item.profileInfoValues}" var="item2">
-				<h:column>
-					<h:outputText value="#{item2.value} (#{item2.date})" />
-				</h:column>
-			</h:dataTable>
-
-		</h:column>
-
-		<h:column>
-			<f:facet name="header">
-				<h:outputText value="#{msg['progress']}" />
-			</f:facet>
-			<h:outputText value="#{item.currentValue} #{item.progress} (#{item.lastDate})" />
-		</h:column>
+	<h:form id="mainForm">
+		<p:fieldset legend="#{msg['profile_information']}" toggleable="true"
+			toggleSpeed="500">
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:graphicImage value="/resources/img/info.png"
+					style="width: 100px; height: 100px;" />
 
 
-	</h:dataTable>
+				<p:dataTable id="dt1"
+					value="#{userProfileInfoBean.userEntity.profileInfoSet}" var="item">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg['name']}" />
+						</f:facet>
 
-	<hr />
+						<h:outputText value="#{item.name}" />
+					</p:column>
 
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg['desc']}" />
+						</f:facet>
+						<h:outputText value="#{item.desc}" />
+					</p:column>
 
-	<c:forEach items="#{userTrainingsBean.trainings}" var="entry">
-		<p>
-		
-			<h:outputText value="#{entry.key.name}" />
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg['progress']}" />
+						</f:facet>
 
-			<h:dataTable value="#{entry.value.trainings}" var="item">
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msg['value']}" />
-					</f:facet>
-					<h:outputText value="#{item.value}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msg['count']}" />
-					</f:facet>
-					<h:outputText value="#{item.count}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msg['date']}" />
-					</f:facet>
-					<h:outputText value="#{item.date}" />
-				</h:column>
+						<h:outputText
+							value="#{item.progress} #{item.currentInfoValue.unit.shortName}"
+							style="color:green;" rendered="#{item.progress gt 0}" />
+						<h:outputText
+							value="#{item.progress} #{item.currentInfoValue.unit.shortName}"
+							style="color:blue;" rendered="#{item.progress eq 0}" />
+						<h:outputText
+							value="#{item.progress} #{item.currentInfoValue.unit.shortName}"
+							style="color:red;" rendered="#{item.progress lt 0}" />
 
-			</h:dataTable>
-			
-			<h:outputText value="#{entry.value.lastTraining} | " />
-			<h:outputText value="#{entry.value.maxSingle} | " /> 
-			<h:outputText value="#{entry.value.maxTotal} | " />  
-			<h:outputText value="#{entry.value.avgSingle} | " /> 
-			<h:outputText value="#{entry.value.avgTotal} | " />			
-		</p>
+						<br />
+						<h:outputText
+							value="#{item.currentValue} #{item.currentInfoValue.unit.shortName} - "
+							rendered="#{not empty item.currentValue}" />
+						<h:outputText value="#{item.lastDate}">
+							<f:convertDateTime pattern="#{applicationInfoBean.dateFormat}" />
+						</h:outputText>
 
-	</c:forEach>
+					</p:column>
 
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msg['history']}" />
+						</f:facet>
+						<p:commandLink update=":dialog"
+							title="#{msg['see_history_chart']}"
+							oncomplete="PF('trainingDialog2').show()"
+							styleClass="ui-icon ui-icon-calendar">
+							<h:outputText styleClass="ui-icon ui-icon-calendar" />
+							<f:setPropertyActionListener value="#{item.id}"
+								target="#{historyChartBean.msg}" />
+						</p:commandLink>
+
+					</p:column>
+				</p:dataTable>
+
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
 
 
 </h:body>

@@ -2,6 +2,7 @@ package pl.jrola.java.www.vigym.viewcontroller.beans;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -19,7 +20,6 @@ public class UserBean implements Serializable {
 
 	private static final long serialVersionUID = 1133776969885921779L;
 
-	private UsersDAO userDAO = DAOFactory.createUsersDAO();
 	private UserEntity userEntity;
 
 	private String login;
@@ -33,6 +33,11 @@ public class UserBean implements Serializable {
 
 	}
 
+	@PostConstruct
+	public void postConstruct() {
+
+	}
+	
 	public String getLogin() {
 		return login;
 	}
@@ -74,6 +79,7 @@ public class UserBean implements Serializable {
 	public void doLogin(ActionEvent event) {
 
 		try {
+			UsersDAO userDAO = DAOFactory.createUsersDAO();
 			userEntity = userDAO.getUser(login, password);
 			if (userEntity != null) {
 				isAuth = true;

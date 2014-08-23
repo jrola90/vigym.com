@@ -134,8 +134,16 @@ public class ProfileInfoEntity implements Serializable {
 	}
 
 	public Double getCurrentValue() {
+		ProfileInfoValueEntity pive = getCurrentInfoValue();
+		if (pive != null) {
+			return pive.getValue();
+		}
+		return null;
+	}
+
+	public ProfileInfoValueEntity getCurrentInfoValue() {
 		if (profileInfoValues.size() > 0) {
-			return Collections.max(profileInfoValues).getValue();
+			return Collections.max(profileInfoValues);
 		}
 		return null;
 	}

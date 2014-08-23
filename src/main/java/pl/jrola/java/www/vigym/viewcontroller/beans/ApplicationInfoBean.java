@@ -3,12 +3,14 @@ package pl.jrola.java.www.vigym.viewcontroller.beans;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import pl.jrola.java.www.vigym.model.Utils;
+
 @ManagedBean (name="applicationInfoBean")
 @ApplicationScoped
 public class ApplicationInfoBean {
 	
 	private String title = "vigym.com";
-	private String dateFormat = "yyyy-MM-dd";
+	private String dateFormat = Utils.DATE_FORMAT;
 	
 	public ApplicationInfoBean() {
 	}
