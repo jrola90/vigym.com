@@ -7,19 +7,36 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<!-- <title>#{applicationInfoBean.title}</title> -->
+	<title>#{applicationInfoBean.title}</title>
 </h:head>
 <h:body>
 
 	<ui:include src="login.xhtml" />
 
-	<p:dialog widgetVar="trainingDialog2" modal="true" resizable="false"
-		header="#{msg['history_chart']}">
+	<br />
+
+	<p:dialog widgetVar="infoValuesChartDialog" modal="true"
+		resizable="false" header="#{msg['history_chart']}">
 		<h:form id="dialog">
-			<h:outputText value="#{historyChartBean.msg}" />
+			<p:chart type="line" model="#{historyChartBean.dateModel}" />
 		</h:form>
 	</p:dialog>
-	<br />
+	
+	<p:dialog widgetVar="infoValuesListDialog" modal="true"
+		resizable="false" header="#{msg['history']}">
+		<h:form id="dialog2">
+			<p:dataList
+				value="#{historyChartBean.selectedProfileInfo.profileInfoValues}"
+				var="item" type="unordered" itemType="none" paginator="true"
+				rows="10" styleClass="paginated">
+				<f:facet name="header">
+            #{msg['history']}
+        </f:facet>
+				<h:outputText value="#{item.value}, #{item.dateAsString}"
+					style="display:inline-block" />
+			</p:dataList>
+		</h:form>
+	</p:dialog>
 
 	<h:form id="mainForm">
 		<p:fieldset legend="#{msg['profile_information']}" toggleable="true"
@@ -77,11 +94,19 @@
 						</f:facet>
 						<p:commandLink update=":dialog"
 							title="#{msg['see_history_chart']}"
-							oncomplete="PF('trainingDialog2').show()"
-							styleClass="ui-icon ui-icon-calendar">
+							oncomplete="PF('infoValuesChartDialog').show()"
+							rendered="#{not empty item.profileInfoValues}">
+							<f:setPropertyActionListener
+								target="#{historyChartBean.selectedProfileInfo}" value="#{item}" />
 							<h:outputText styleClass="ui-icon ui-icon-calendar" />
-							<f:setPropertyActionListener value="#{item.id}"
-								target="#{historyChartBean.msg}" />
+						</p:commandLink>
+
+						<p:commandLink update=":dialog2" title="#{msg['see_history']}"
+							oncomplete="PF('infoValuesListDialog').show()"
+							rendered="#{not empty item.profileInfoValues}">
+							<f:setPropertyActionListener
+								target="#{historyChartBean.selectedProfileInfo}" value="#{item}" />
+							<h:outputText styleClass="ui-icon ui-icon-search" />
 						</p:commandLink>
 
 					</p:column>

@@ -1,29 +1,31 @@
 package pl.jrola.java.www.vigym.viewcontroller.beans.userview;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.RequestScoped;
 
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 
+import pl.jrola.java.www.vigym.model.Utils;
 import pl.jrola.java.www.vigym.model.entities.ProfileInfoEntity;
+import pl.jrola.java.www.vigym.model.entities.ProfileInfoValueEntity;
 import pl.jrola.java.www.vigym.viewcontroller.JSFUtils;
 
 @ManagedBean(name = "historyChartBean")
-@ViewScoped
+@RequestScoped
 public class HistoryChartBean implements Serializable {
 
 	private static final long serialVersionUID = 8285707332812952216L;
 
 	private String msg;
-	
+	private transient LineChartSeries series1;
+
 	public String getMsg() {
 		return msg;
 	}
@@ -42,38 +44,38 @@ public class HistoryChartBean implements Serializable {
 
 	@PostConstruct
 	public void postConstruct() {
-		msg = "bbb";
 		dateModel = new LineChartModel();
-		LineChartSeries series1 = new LineChartSeries();
-		series1.setLabel("Series 1");
-
-		/*if (selectedProfileInfo != null) {
-			for (ProfileInfoValueEntity pive : selectedProfileInfo.getProfileInfoValues()) {
-				series1.set(pive.getDate(), pive.getValue());
-			}
-		}*/
-		
-		series1.set("2014-11-11", 1);
-		
+		series1 = new LineChartSeries();
+		series1.set("1970-01-06", 0);
 		dateModel.addSeries(series1);
 
-		dateModel.setTitle(JSFUtils.getMessage("zoom"));
 		dateModel.setZoom(true);
 		dateModel.getAxis(AxisType.Y).setLabel(JSFUtils.getMessage("values"));
 		DateAxis axis = new DateAxis(JSFUtils.getMessage("date"));
 		axis.setTickAngle(-50);
-		axis.setMax(new Date());
-		axis.setTickFormat("%b %#d, %y");
+		axis.setTickFormat("%d-%m-%Y");
 
 		dateModel.getAxes().put(AxisType.X, axis);
+
 	}
- 
+
 	public ProfileInfoEntity getSelectedProfileInfo() {
 		return selectedProfileInfo;
 	}
 
 	public void setSelectedProfileInfo(ProfileInfoEntity selectedProfileInfo) {
 		this.selectedProfileInfo = selectedProfileInfo;
+
+		this.series1.setLabel(selectedProfileInfo.getName());
+
+		dateModel.getSeries().get(0).setData(new HashMap<Object, Number>());
+		for (ProfileInfoValueEntity pive : this.selectedProfileInfo
+				.getProfileInfoValues()) {
+			dateModel
+					.getSeries()
+					.get(0)
+					.set(Utils.getDateAsString(pive.getDate()), pive.getValue());
+		}
 	}
 
 	public LineChartModel getDateModel() {

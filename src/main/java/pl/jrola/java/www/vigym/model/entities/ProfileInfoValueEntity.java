@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import pl.jrola.java.www.vigym.model.entities.UnitEntity;
 import pl.jrola.java.www.vigym.model.DbUtils;
+import pl.jrola.java.www.vigym.model.Utils;
 
 @Entity
 @Table(name = DbUtils.PROFILE_INFO_VALUES_TABLE.TABLE_NAME)
@@ -72,6 +73,10 @@ public class ProfileInfoValueEntity implements Serializable,
 		return date;
 	}
 
+	public String getDateAsString() {
+		return Utils.getDateAsString(this.date);
+	}
+	
 	public void setDate(Date date) {
 		this.date = date;
 	}
