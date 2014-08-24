@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import pl.jrola.java.www.vigym.model.DbUtils;
+import pl.jrola.java.www.vigym.model.Utils;
 
 @Entity
 @Table(name = DbUtils.TRAININGS_TABLE.TABLE_NAME)
@@ -74,6 +75,10 @@ public class TrainingEntity implements Serializable, Comparable<TrainingEntity> 
 		return date;
 	}
 
+	public String getDateAsString() {
+		return Utils.getDateAsString(date);
+	}
+	
 	public void setDate(Date date) {
 		this.date = date;
 	}

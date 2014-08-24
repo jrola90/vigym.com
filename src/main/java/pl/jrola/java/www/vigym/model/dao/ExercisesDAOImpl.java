@@ -18,20 +18,21 @@ public class ExercisesDAOImpl implements ExercisesDAO {
 
 		SessionFactory sessionFactory = null;
 		Session session = null;
-		
+
 		try {
 			sessionFactory = HibernateUtils.getSessionFactory();
 			session = sessionFactory.openSession();
-			
+
 			Query query = session.createQuery("from ExerciseEntity");
-			List<ExerciseEntity> exerciseList =  query.list();
-			
+			List<ExerciseEntity> exerciseList = query.list();
+
 			return exerciseList;
-			
+
 		} catch (Exception e) {
 			Utils.logError(e);
 			throw new GetExercisesException(e);
 		}
-		
+
 	}
+
 }

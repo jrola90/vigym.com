@@ -2,6 +2,7 @@ package pl.jrola.java.www.vigym.viewcontroller.beans.userview;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -20,6 +21,11 @@ public class UserProfileInfoBean implements Serializable {
 	private String errorMessage;
 
 	public UserProfileInfoBean() {
+
+	}
+
+	@PostConstruct
+	public void postConstruct() {
 		Object userId = null;
 		try {
 			UsersDAO usersDAO = DAOFactory.createUsersDAO();

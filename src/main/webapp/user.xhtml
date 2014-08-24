@@ -21,7 +21,7 @@
 			<p:chart type="line" model="#{historyChartBean.dateModel}" />
 		</h:form>
 	</p:dialog>
-	
+
 	<p:dialog widgetVar="infoValuesListDialog" modal="true"
 		resizable="false" header="#{msg['history']}">
 		<h:form id="dialog2">
@@ -38,13 +38,34 @@
 		</h:form>
 	</p:dialog>
 
+	<p:dialog widgetVar="trainingsHistoryDialog" modal="true"
+		resizable="false" header="#{msg['history']}">
+
+
+		<h:form id="dialog3">
+			<p:dataList
+				value="#{userExercisesBean.selectedTrainingGroup.trainings}"
+				var="item" type="unordered" itemType="none" paginator="true"
+				rows="10" styleClass="paginated">
+				<f:facet name="header">
+            #{msg['history']}
+        </f:facet>
+				<h:outputText value="#{item.count} x #{item.value}, #{item.dateAsString}"
+					style="display:inline-block" />
+			</p:dataList>
+		</h:form>
+
+
+	</p:dialog>
+
+
 	<h:form id="mainForm">
-		<p:fieldset legend="#{msg['profile_information']}" toggleable="true"
-			toggleSpeed="500">
+		<p:fieldset
+			legend="#{msg['profile_information']}: #{userProfileInfoBean.userEntity.nickname}"
+			toggleable="true" toggleSpeed="500">
 			<h:panelGrid columns="2" cellpadding="5">
 				<p:graphicImage value="/resources/img/info.png"
 					style="width: 100px; height: 100px;" />
-
 
 				<p:dataTable id="dt1"
 					value="#{userProfileInfoBean.userEntity.profileInfoSet}" var="item">
@@ -88,7 +109,7 @@
 
 					</p:column>
 
-					<p:column>
+					<p:column width="80">
 						<f:facet name="header">
 							<h:outputText value="#{msg['history']}" />
 						</f:facet>
@@ -113,6 +134,96 @@
 				</p:dataTable>
 
 			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+
+	<br />
+	<h:form id="trainingsForm">
+		<p:fieldset legend="#{msg['trainings']}" toggleable="true"
+			toggleSpeed="500">
+
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:graphicImage value="/resources/img/trainings.png"
+					style="width: 100px; height: 100px;" />
+
+
+				<p:accordionPanel
+					value="#{userExercisesBean.exercises.entrySet().toArray()}"
+					multiple="true" var="item">
+
+					<p:tab title="#{item.key.name}">
+
+						<h:panelGrid columns="1" cellpadding="10">
+
+							<p:dataTable value="#{item.value}" var="row">
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msg['max_value']}" />
+									</f:facet>
+									<h:outputText value="#{row.maxSingleValue}">
+										<f:convertNumber pattern="#0.00 kg" />
+									</h:outputText>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msg['max_value_total']}" />
+									</f:facet>
+									<h:outputText value="#{item.value.maxTotalValue}">
+										<f:convertNumber pattern="#0.00 kg" />
+									</h:outputText>
+
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msg['avg_value']}" />
+									</f:facet>
+									<h:outputText value="#{item.value.avgSingleValue}">
+										<f:convertNumber pattern="#0.00 kg" />
+									</h:outputText>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msg['avg_value_total']}" />
+									</f:facet>
+									<h:outputText value="#{item.value.avgTotalValue}">
+										<f:convertNumber pattern="#0.00 kg" />
+									</h:outputText>
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="#{msg['last_training']}" />
+									</f:facet>
+									<h:outputText
+										value="#{item.value.lastTraining.count} x #{item.value.lastTraining.value} kg " />
+									<h:outputText value="(#{item.value.lastTraining.dateAsString})" />
+								</p:column>
+								<p:column width="80">
+									<f:facet name="header">
+										<h:outputText value="#{msg['history']}" />
+									</f:facet>
+
+									<p:commandLink update=":dialog3" title="#{msg['see_history']}"
+										oncomplete="PF('trainingsHistoryDialog').show()">
+										<f:setPropertyActionListener
+											target="#{userExercisesBean.selectedTrainingGroup}"
+											value="#{item.value}" />
+										<h:outputText styleClass="ui-icon ui-icon-search" />
+									</p:commandLink>
+
+								</p:column>
+							</p:dataTable>
+						</h:panelGrid>
+
+					</p:tab>
+
+
+				</p:accordionPanel>
+
+
+
+
+			</h:panelGrid>
+
 		</p:fieldset>
 	</h:form>
 
