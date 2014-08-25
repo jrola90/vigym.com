@@ -94,10 +94,14 @@ public class UserBean implements Serializable {
 
 	}
 
-	public Long getId(){
-		return userEntity.getId();
+	public UserEntity getUserEntity() {
+		return userEntity;
 	}
-	
+
+	public void setUserEntity(UserEntity userEntity) {
+		this.userEntity = userEntity;
+	}
+
 	public void doLogout(ActionEvent event) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.remove("userBean");

@@ -1,11 +1,7 @@
 package pl.jrola.java.www.vigym.viewcontroller.beans.userview;
 
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -14,8 +10,8 @@ import javax.faces.bean.ViewScoped;
 import pl.jrola.java.www.vigym.model.dao.DAOFactory;
 import pl.jrola.java.www.vigym.model.dao.TrainingsDAO;
 import pl.jrola.java.www.vigym.model.dao.exceptions.GetTrainingsException;
-import pl.jrola.java.www.vigym.model.entities.ExerciseEntity;
 import pl.jrola.java.www.vigym.model.entities.TrainingEntity;
+import pl.jrola.java.www.vigym.model.entities.UserEntity;
 import pl.jrola.java.www.vigym.viewcontroller.JSFUtils;
 
 @ManagedBean(name = "userExercisesBean")
@@ -24,8 +20,9 @@ public class UserExercisesBean implements Serializable {
 
 	private static final long serialVersionUID = -837891465485933594L;
 
-	private Map<ExerciseEntity, TrainingsByExerciseBean> exercises = new LinkedHashMap<ExerciseEntity, TrainingsByExerciseBean>();
+	private ExercisesModel exercisesModel;
 	private TrainingsByExerciseBean selectedTrainingGroup;
+	private UserEntity currentlyViewedUser;
 	
 	private String errorMessage;
 
@@ -39,15 +36,16 @@ public class UserExercisesBean implements Serializable {
 		try {
 			userId = JSFUtils.getRequestParameter("id");
 			if (userId != null) {
-
+				
 				TrainingsDAO trainingsDAO = DAOFactory.createTrainingsDAO();
 				List<TrainingEntity> trainings = trainingsDAO
 						.getTrainingsByUserId(userId.toString());
+				this.exercisesModel = new ExercisesModel();
 				for (TrainingEntity training : trainings) {
-					this.addTrainingToGroup(training);
+					this.exercisesModel.addTrainingToGroup(training);
 				}
 
-				this.calcValues();
+				this.exercisesModel.calcValues();
 
 			} else {
 				errorMessage = JSFUtils.getMessage("error_wrong_user_id");
@@ -59,24 +57,7 @@ public class UserExercisesBean implements Serializable {
 		}
 	}
 
-	private void calcValues() {
-		Iterator iter = exercises.entrySet().iterator();
-		while (iter.hasNext()) {
-			Map.Entry<ExerciseEntity, TrainingsByExerciseBean> entry = (Entry<ExerciseEntity, TrainingsByExerciseBean>) iter
-					.next();
-			entry.getValue().calcValues();
-		}
-	}
 
-	private void addTrainingToGroup(TrainingEntity training) {
-		ExerciseEntity exercise = training.getExercise();
-		TrainingsByExerciseBean trainingGroup = this.exercises.get(exercise);
-		if (trainingGroup == null) {
-			trainingGroup = new TrainingsByExerciseBean();
-			this.exercises.put(exercise, trainingGroup);
-		}
-		trainingGroup.addTraining(training);
-	}
 
 	public String getErrorMessage() {
 		return errorMessage;
@@ -86,9 +67,6 @@ public class UserExercisesBean implements Serializable {
 		this.errorMessage = errorMessage;
 	}
 
-	public Map<ExerciseEntity, TrainingsByExerciseBean> getExercises() {
-		return exercises;
-	}
 
 	public TrainingsByExerciseBean getSelectedTrainingGroup() {
 		return selectedTrainingGroup;
@@ -97,6 +75,22 @@ public class UserExercisesBean implements Serializable {
 	public void setSelectedTrainingGroup(
 			TrainingsByExerciseBean selectedTrainingGroup) {
 		this.selectedTrainingGroup = selectedTrainingGroup;
+	}
+
+	public UserEntity getCurrentlyViewedUser() {
+		return currentlyViewedUser;
+	}
+
+	public void setCurrentlyViewedUser(UserEntity currentlyViewedUser) {
+		this.currentlyViewedUser = currentlyViewedUser;
+	}
+
+	public ExercisesModel getExercisesModel() {
+		return exercisesModel;
+	}
+
+	public void setExercisesModel(ExercisesModel exercisesModel) {
+		this.exercisesModel = exercisesModel;
 	}
 
 }

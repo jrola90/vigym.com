@@ -29,7 +29,7 @@
 				<h:outputText value="#{msg['logged_as']}:"
 					style="margin-right: 5px;" />
 
-				<a href="user.jsf?id=#{userBean.id}"><h:outputText
+				<a href="user.jsf?id=#{userBean.userEntity.id}"><h:outputText
 						value="#{userBean.login}" style="margin-right: 5px;" /></a>
 
 				<h:outputText value="#{userBean.email}"

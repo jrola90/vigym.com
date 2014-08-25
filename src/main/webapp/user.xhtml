@@ -40,8 +40,6 @@
 
 	<p:dialog widgetVar="trainingsHistoryDialog" modal="true"
 		resizable="false" header="#{msg['history']}">
-
-
 		<h:form id="dialog3">
 			<p:dataList
 				value="#{userExercisesBean.selectedTrainingGroup.trainings}"
@@ -50,15 +48,69 @@
 				<f:facet name="header">
             #{msg['history']}
         </f:facet>
-				<h:outputText value="#{item.count} x #{item.value}, #{item.dateAsString}"
+				<h:outputText
+					value="#{item.count} x #{item.value}, #{item.dateAsString}"
 					style="display:inline-block" />
 			</p:dataList>
 		</h:form>
-
-
 	</p:dialog>
 
+	<h:form id="compareForm" rendered="#{comparisonBean.available}">
+		<p:fieldset legend="#{msg['comparison']}" toggleable="true"
+			toggleSpeed="500">
+			<h:panelGrid columns="2" style="width: 100%" cellpadding="5">
+				<p:graphicImage value="/resources/img/compare.png"
+					style="width: 100px; height: 100px;" />
 
+				<p:dataTable
+					value="#{comparisonBean.comparisonModel.commonExercises}"
+					var="exercise">
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel>#{msg['exercise']}</p:outputLabel>
+						</f:facet>
+						#{exercise.name}
+					</p:column>
+					<p:column width="120" style="text-align: center;">
+						<f:facet name="header">
+							<p:outputLabel>#{msg['your_score']}</p:outputLabel>
+						</f:facet>
+						<p:outputLabel
+							value="#{comparisonBean.comparisonModel.exercisesModel1.getTrainingsStats(exercise).maxSingleValue}">
+							<f:convertNumber pattern="#0.00 kg" />
+						</p:outputLabel>
+					</p:column>
+					<p:column width="120" style="text-align: center;">
+						<f:facet name="header">
+							<p:outputLabel>#{msg['ratio']}</p:outputLabel>
+						</f:facet>
+						<p:outputLabel
+							value="#{comparisonBean.comparisonModel.getComparison(exercise)}">
+							<f:convertNumber pattern="#0.00" />
+						</p:outputLabel>
+					</p:column>
+					<f:facet name="footer">
+					
+						<h:outputText
+							value="#{msg['you_are_better']} "
+							style="color:green;" rendered="#{comparisonBean.comparisonModel.score gt 0}" />
+						<h:outputText
+							value="#{msg['you_are_equals']} "
+							style="color:blue;" rendered="#{comparisonBean.comparisonModel.score eq 0}" />
+						<h:outputText
+							value="#{msg['you_are_worse']} "
+							style="color:red;" rendered="#{comparisonBean.comparisonModel.score lt 0}" />
+						<p:outputLabel value="#{comparisonBean.comparisonModel.score}">
+							<f:convertNumber pattern="(#0.00)" />
+						</p:outputLabel>
+					</f:facet>
+				</p:dataTable>
+
+			</h:panelGrid>
+		</p:fieldset>
+	</h:form>
+
+	<br />
 	<h:form id="mainForm">
 		<p:fieldset
 			legend="#{msg['profile_information']}: #{userProfileInfoBean.userEntity.nickname}"
@@ -148,7 +200,7 @@
 
 
 				<p:accordionPanel
-					value="#{userExercisesBean.exercises.entrySet().toArray()}"
+					value="#{userExercisesBean.exercisesModel.exercises.entrySet().toArray()}"
 					multiple="true" var="item">
 
 					<p:tab title="#{item.key.name}">
@@ -213,20 +265,10 @@
 								</p:column>
 							</p:dataTable>
 						</h:panelGrid>
-
 					</p:tab>
-
-
 				</p:accordionPanel>
-
-
-
-
 			</h:panelGrid>
-
 		</p:fieldset>
 	</h:form>
-
-
 </h:body>
 </html>
