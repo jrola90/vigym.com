@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
@@ -29,6 +30,10 @@ public class UserTrainingsBean implements Serializable {
 
 	public UserTrainingsBean() {
 
+	}
+	
+	@PostConstruct
+	public void postConstruct() {
 		Object userId = null;
 		try {
 			userId = JSFUtils.getRequestParameter("id");
@@ -48,7 +53,6 @@ public class UserTrainingsBean implements Serializable {
 		} catch (GetTrainingsException e) {
 			errorMessage = e.getMessage();
 		}
-
 	}
 
 	public Map<ExerciseEntity, TrainingList> getTrainings() {
